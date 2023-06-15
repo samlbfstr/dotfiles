@@ -1,0 +1,117 @@
+set $mod Mod4
+
+set $refresh_i3status killall -SIGUSR1 i3status
+
+# Adjust volume with pactl
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Kill window
+bindsym $mod+Shift+q kill
+
+# Change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+o focus parent
+
+# Move window
+floating_modifier $mod
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Window mode
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+bindsym $mod+Shift+f fullscreen toggle
+
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+space floating toggle
+
+# Workspace names
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# Move container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# i3 control
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# Window resize
+bindsym $mod+r mode "resize"
+mode "resize" {
+	bindsym Left resize shrink width 10 px or 1 ppt
+	bindsym Down resize grow height 10 px or 1 ppt
+	bindsym Up resize shrink height 10 px or 1 ppt
+	bindsym Right resize grow width 10 px or 1 ppt
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+	bindsym $mod+r mode "default"
+}
+
+# Styling
+for_window [class="^.*"] border pixel 1
+client.focused          #2F81F7 #285577 #ebdbb2 #2F81F7 #2F81F7
+client.focused_inactive #FFA44D #285577 #ebdbb2 #FFA44D #FFA44D
+client.unfocused        #30363D #285577 #ebdbb2 #30363D #30363D
+client.urgent           #cc241d #285577 #ebdbb2 #cc241d #cc241d
+client.background       #161B22
+gaps inner 15
+
+# Quicklaunch
+bindsym $mod+g exec gyazo
+bindsym $mod+Return exec alacritty
+bindsym $mod+f exec vivaldi-stable
+bindsym $mod+b exec alacritty -e bluetoothctl
+bindsym $mod+m exec alacritty -e htop
+bindsym $mod+a exec alacritty -e ncpamixer
+bindsym $mod+d exec rofi -show drun -theme /home/sannf/.config/rofi/config.rasi -show-icons
+bindsym $mod+Tab exec rofi -show window -theme /home/sannf/.config/rofi/config.rasi -show-icons
+exec --no-startup-id dex --autostart --environment i3
+
+# Startup
+exec --no-startup-id nitrogen --restore
+#exec --no-startup-id conky -c ~/home/sannf.conkyrc
+exec discord
+exec steam
